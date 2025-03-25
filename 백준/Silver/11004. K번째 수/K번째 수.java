@@ -21,27 +21,40 @@ public class Main {
 
     public static void quickSort(int[] A, int start, int end, int K) {
         if (start < end) {
+            // pivotIdx 선택 
             int pivotIdx = partition(A, start, end);
 
-            if (pivotIdx == K) return;
-            if (pivotIdx > K) quickSort(A, start, pivotIdx - 1, K);
-            else quickSort(A, pivotIdx + 1, end, K);
+            if (pivotIdx == K) {
+                return;
+            }
+            else if (pivotIdx > K) {
+                // K가 pivot보다 왼쪽, 왼쪽만 정렬
+                quickSort(A, start, pivotIdx - 1, K);
+            }
+            else {
+                // K가 pivot보다 오른쪽, 오른쪽만 정렬
+                quickSort(A, pivotIdx + 1, end, K);
+            }
         }
     }
 
     public static int partition(int[] A, int start, int end) {
         if (end - start == 1) {
+            // 배열의 크기가 2인 경우 
             if (A[start] > A[end]) {
                 swap(A, start, end);
             }
             return end;
         }
-    
+        
+        // mid를 pivot으로 선택 
         int mid = (start + end) / 2;
         int pivot = A[mid];
-        swap(A, mid, end);
+        swap(A, mid, end); // 정렬의 편의성을 위해 pivot과 end를 swap 
     
         int left = start, right = end - 1;
+        
+        // left == right일 때까지 
         while (left <= right) {
             while (left <= end && A[left] < pivot) {
                 left++;
@@ -59,6 +72,7 @@ public class Main {
                 break;
             }
         }
+        // pivot을 left 자리에 배치 
         swap(A, left, end);
         return left;
     }
